@@ -67,3 +67,21 @@ div.item {
         font-size: 1.1em;
         margin: .4em 0 0 0;
     }
+
+div#categories a {
+    font:bold 1.1em "Arial Narrow","Franklin Gothic Medium",Arial; display:block;
+    text-decoration:none; padding:.6em; color:black;
+    border-bottom:1px solid silver;
+}
+
+    div#categories a.selected {
+        background-color:#666; color:white;
+    }
+
+    div#categories a:hover {
+        background-color:#CCC;
+    }
+
+    div#categories a.selected:hover {
+        background-color:#666;
+    }
