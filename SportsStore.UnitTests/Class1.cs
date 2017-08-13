@@ -122,5 +122,40 @@ namespace SportsStore.UnitTests
             Assert.AreEqual("Oranges", result.ToArray()[1]);
             Assert.AreEqual("Plums", result.ToArray()[2]);
         }
+
+        [TestMethod]
+        public void Indicates_Selected_Category() {
+            Mock<IProductsRepository> mock = new Mock<IProductsRepository>();
+            mock.Setup(m => m.Products).Returns(new Product[]
+            {
+                new Product{ ProductID = 1, Name = "P1", Category = "Apples"},
+                new Product{ ProductID = 4, Name = "P2", Category = "Oranges"}
+            }.AsQueryable());
+
+            NavController controller = new NavController(mock.Object);
+            string category = "Apples";
+            string result = controller.Menu(category).ViewBag.SelectedCategory;
+            Assert.AreEqual("Apples", result);
+        }
+
+        [TestMethod]
+        public void Generate_Category_Specific_Product_Count()
+        {
+            Mock<IProductsRepository> mock = new Mock<IProductsRepository>();
+            mock.Setup(m => m.Products).Returns(new Product[]
+            {
+                new Product{ ProductID = 1, Name = "P1", Category = "Cat1"},
+                new Product{ ProductID = 2, Name = "P2", Category = "Cat2"},
+                new Product{ ProductID = 3, Name = "P3", Category = "Cat1"},
+                new Product{ ProductID = 4, Name = "P4", Category = "Cat2"}
+            }.AsQueryable());
+
+            ProductController controller = new ProductController(mock.Object);
+
+            string category = "Cat1";
+
+            PagingInfo pagingInfo = ((ProductsListViewModel)controller.List(category, 1).Model).PagingInfo;
+            Assert.AreEqual(2, pagingInfo.TotalItems);
+        }
     }
 }
