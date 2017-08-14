@@ -78,6 +78,19 @@ namespace SportsStore.UnitTests
 
         [TestMethod]
         public void Cannot_Checkout_Empty_Cart() {
+            Mock<IOrderProcessor> mock = new Mock<IOrderProcessor>();
+            //mock.Setup(m => m.)
+
+            Cart cart = new Cart();
+            ShippingDetails shippingDetails = new ShippingDetails();
+            CartController target = new CartController(null, mock.Object);
+            ViewResult result = target.Checkout(cart, shippingDetails);
+
+            mock.Verify(m => m.ProcessOrder(It.IsAny<Cart>(),
+                It.IsAny<ShippingDetails>()), Times.Never());
+
+            Assert.AreEqual("", result.ViewName);
+            Assert.AreEqual(false, result.ViewData.ModelState.IsValid);
         }
     }
 }
