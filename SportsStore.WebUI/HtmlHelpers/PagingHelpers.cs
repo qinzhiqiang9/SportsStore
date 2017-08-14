@@ -23,7 +23,9 @@ namespace SportsStore.WebUI.HtmlHelpers
                 if (i == pagingInfo.CurrentPage)
                 {
                     tag.AddCssClass("selected");
+                    tag.AddCssClass("btn-primary");
                 }
+                tag.AddCssClass("btn btn-default");
                 sb.Append(tag.ToString());
             }
             return MvcHtmlString.Create(sb.ToString());
