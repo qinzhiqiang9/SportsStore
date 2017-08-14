@@ -12,5 +12,23 @@ namespace SportsStore.Domain.Concrete
     {
         private EFDbContext context = new EFDbContext();
         public IQueryable<Product> Products => context.Products;
+
+        public void SaveProduct(Product product)
+        {
+            if (product.ProductID == 0)
+            {
+                // new add
+                context.Products.Add(product);
+            }
+            else
+            {
+                Product dbEntry = context.Products.Find(product.ProductID);
+                dbEntry.Name = product.Name;
+                dbEntry.Price = product.Price;
+                dbEntry.Category = product.Category;
+                dbEntry.Description = product.Description;
+            }
+            context.SaveChanges();
+        }
     }
 }
