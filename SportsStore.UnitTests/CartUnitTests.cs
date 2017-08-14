@@ -40,7 +40,7 @@ namespace SportsStore.UnitTests
             }.AsQueryable());
 
             Cart cart = new Cart();
-            CartController controller = new CartController(mock.Object);
+            CartController controller = new CartController(mock.Object,null);
             controller.Add(cart, 1, null);
 
             Assert.AreEqual(1, cart.Items.Count());
@@ -56,7 +56,7 @@ namespace SportsStore.UnitTests
             }.AsQueryable());
 
             Cart cart = new Cart();
-            CartController controller = new CartController(mock.Object);
+            CartController controller = new CartController(mock.Object,null);
 
             RedirectToRouteResult result = controller.Add(cart, 2, "myUrl");
 
@@ -68,12 +68,16 @@ namespace SportsStore.UnitTests
         public void Can_View_Cart_Contents()
         {
             Cart cart = new Cart();
-            CartController controller = new CartController(null);
+            CartController controller = new CartController(null,null);
 
             CartIndexViewModel result = (CartIndexViewModel)controller.Index(cart, "myUrl").Model;
 
             Assert.AreEqual(cart, result.Cart);
             Assert.AreEqual("myUrl", result.ReturnUrl);
+        }
+
+        [TestMethod]
+        public void Cannot_Checkout_Empty_Cart() {
         }
     }
 }
