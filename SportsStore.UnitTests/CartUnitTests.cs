@@ -122,5 +122,45 @@ namespace SportsStore.UnitTests
 
             Assert.AreEqual(null, result);
         }
+
+        [TestMethod]
+        public void Can_Save_Valid_Changes() {
+            Mock<IProductsRepository> mock = new Mock<IProductsRepository>();
+            AdminController target = new AdminController(mock.Object);
+            Product product = new Product { Name = "Test" };
+
+            ActionResult result = target.Edit(product);
+            mock.Verify(m => m.SaveProduct(product));
+
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+        }
+
+        [TestMethod]
+        public void Cannot_Save_Invalid_Changes() {
+            Mock<IProductsRepository> mock = new Mock<IProductsRepository>();
+            AdminController target = new AdminController(mock.Object);
+            Product product = new Product { Name = "Test" };
+            target.ModelState.AddModelError("error", "error");
+
+            ActionResult result = target.Edit(product);
+            mock.Verify(m => m.SaveProduct(It.IsAny<Product>()), Times.Never);
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
+        }
+
+        [TestMethod]
+        public void Can_Delete_Valid_Products() {
+            Mock<IProductsRepository> mock = new Mock<IProductsRepository>();
+            mock.Setup(m => m.Products).Returns(new Product[]
+            {
+                new Product{ ProductID = 1},
+                new Product{ ProductID = 2},
+            }.AsQueryable());
+
+            Product deletedProduct = new Product { ProductID = 2 };
+            AdminController controller = new AdminController(mock.Object);
+            controller.Delete(deletedProduct.ProductID);
+
+            mock.Verify(m => m.DeleteProduct(It.IsAny<int>()), Times.Once);
+        }
     }
 }

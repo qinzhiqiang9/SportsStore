@@ -9,7 +9,7 @@
     <div class="panel-heading">
         <h3>Edit @Model.Name</h3>
     </div>
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("Edit","Admin"))
     {
         <div class="panel-body">
             @Html.Hidden("productId", Model.ProductID)
@@ -26,15 +26,17 @@
                         else {
                             @Html.TextBox(property.PropertyName,null,new { @class = "form-control" })
                         }
+                        @Html.ValidationMessage(property.PropertyName)
                     </div>
                 }
              }
         </div>
+
+        <div class="panel-footer">
+            <input type="submit" value="Save" class="btn btn-primary" />
+            @Html.ActionLink("Cancel and return the list", "Index", null, new { @class = "btn btn-default" })
+        </div>
     }
-    <div class="panel-footer">
-        <input type="submit" value="Save" class="btn btn-primary" />
-        @Html.ActionLink("Cancel and return the list", "Index", null, new { @class = "btn btn-default" })
-    </div>
 </div>
 
 @*@using (Html.BeginForm())

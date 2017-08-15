@@ -54,7 +54,7 @@ namespace SportsStore.UnitTests
             HtmlHelper myHelper = null;
             MvcHtmlString result = myHelper.PageLinks(pagingInfo, pageUrlDelegate);
 
-            Assert.AreEqual("<a href=\"Page1\">1</a><a class=\"selected\" href=\"Page2\">2</a><a href=\"Page3\">3</a>", result.ToString());
+            Assert.AreEqual("<a class=\"btn btn-default\" href=\"Page1\">1</a><a class=\"btn btn-default btn-primary selected\" href=\"Page2\">2</a><a class=\"btn btn-default\" href=\"Page3\">3</a>", result.ToString());
         }
 
         [TestMethod]

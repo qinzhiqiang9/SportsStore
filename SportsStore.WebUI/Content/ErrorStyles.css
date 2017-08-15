@@ -6,3 +6,9 @@
 .validation-summary-errors {
     font-weight:bold; color:#f00;
 }
+
+
+.field-validation-error {
+    font-weight: bold;
+    color: #f00;
+}
